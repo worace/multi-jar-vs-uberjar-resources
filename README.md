@@ -63,6 +63,12 @@ The problem of resource collisions (i.e. 2 JARs containing resources of the same
 
 Building an uberjar has the benefit of moving this problem to build time, and ideally warning you about it in some way (for example the sbt-assembly plugin throws an error on this collision if you don't handle it).
 
+#### Loading Single vs. Multi Resources
+
+Like most people I have usually used the `public URL getResource(String name)` API on [java.lang.Class](https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html#getResource-java.lang.String-). This returns a single URL to a resource from the classpath, relying on the "first one wins" behavior described above.
+
+A reddit user also pointed out the ` public Enumeration<URL> getResources(String name)` API on [java.lang.ClassLoader](https://docs.oracle.com/javase/8/docs/api/java/lang/ClassLoader.html#getResources-java.lang.String-). This gives a list of resources matching a filename. However I think in practice it can be tricky to work with the URLs as they point to nested paths within Zipped JAR archives.
+
 ### Example Run Output
 
 ```
